@@ -1,4 +1,10 @@
 
+export interface ProductVariant {
+  color: string;
+  front: string;
+  back: string;
+}
+
 export interface Product {
   id: number;
   name: string;
@@ -7,6 +13,7 @@ export interface Product {
   description: string;
   category: 'men' | 'women' | 'accessories';
   drop: string;
+  variants?: ProductVariant[];
 }
 
 export interface CartItem extends Product {

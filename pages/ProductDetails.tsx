@@ -1,24 +1,45 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { PRODUCTS } from '../constants';
+import { useTheme } from '../components/ThemeContext';
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { theme } = useTheme();
+
   const product = PRODUCTS.find((p) => p.id === Number(id));
-  const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
+
+  const [currentVariantIndex, setCurrentVariantIndex] = useState(0);
+  const [viewSide, setViewSide] = useState<'front' | 'back'>('front');
+
+  // Initialize and React to Theme Changes for default selection
+  useEffect(() => {
+    if (product?.variants && product.variants.length > 0) {
+      let targetIndex = 0;
+      if (theme === 'light') {
+        const blackIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('black'));
+        const greyIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('grey'));
+        if (blackIndex !== -1) targetIndex = blackIndex;
+        else if (greyIndex !== -1) targetIndex = greyIndex;
+      } else {
+        const whiteIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('white'));
+        if (whiteIndex !== -1) targetIndex = whiteIndex;
+      }
+      setCurrentVariantIndex(targetIndex);
+    }
+  }, [theme, product]);
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F9F9F9]">
+      <div className="min-h-screen flex items-center justify-center bg-[#F9F9F9] dark:bg-[#111111] text-black dark:text-white">
         <div className="text-center">
           <h2 className="text-4xl font-black uppercase mb-4">Item Missing</h2>
           <button
             onClick={() => navigate('/shop')}
-            className="text-sm font-mono border-b border-black hover:text-gray-500"
+            className="text-sm font-mono border-b border-black dark:border-white hover:text-gray-500"
           >
             RETURN TO BASE
           </button>
@@ -27,11 +48,21 @@ const ProductDetails: React.FC = () => {
     );
   }
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - left) / width) * 100;
-    const y = ((e.clientY - top) / height) * 100;
-    setZoomPos({ x, y });
+  const hasVariants = product.variants && product.variants.length > 1;
+  const currentVariant = product.variants ? product.variants[currentVariantIndex] : null;
+  const currentImage = currentVariant ? currentVariant[viewSide] : product.image;
+  const currentVariantColor = currentVariant ? currentVariant.color : null;
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!product.variants) return;
+    setCurrentVariantIndex((prev) => (prev === 0 ? product.variants!.length - 1 : prev - 1));
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!product.variants) return;
+    setCurrentVariantIndex((prev) => (prev === product.variants!.length - 1 ? 0 : prev + 1));
   };
 
   return (
@@ -47,34 +78,57 @@ const ProductDetails: React.FC = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
         {/* Image Inspection Area */}
         <div
-          className="relative aspect-[3/4] bg-gray-100 dark:bg-gray-900 overflow-hidden cursor-zoom-in group border border-gray-200 dark:border-gray-800"
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
-          onMouseMove={handleMouseMove}
+          className="relative aspect-[3/4] bg-transparent overflow-hidden group"
         >
           {/* Base Image */}
           <img
-            src={product.image}
+            src={currentImage}
             alt={product.name}
-            className={`w-full h-full object-cover transition-opacity duration-300 ${isHovering ? 'opacity-0' : 'opacity-100'}`}
+            className="w-full h-full object-contain p-8"
           />
 
-          {/* Zoomed Image Overlay */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              backgroundImage: `url(${product.image})`,
-              backgroundPosition: `${zoomPos.x}% ${zoomPos.y}%`,
-              backgroundSize: '250%',
-              opacity: isHovering ? 1 : 0,
-            }}
-          />
+          {/* View Toggle (Front/Back) */}
+          {currentVariant && currentVariant.back && (
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-4 bg-white/80 dark:bg-black/80 backdrop-blur-md px-6 py-2 rounded-full z-20 shadow-sm border border-black/5 dark:border-white/5">
+              <button
+                onClick={() => setViewSide('front')}
+                className={`text-[10px] font-mono font-bold tracking-widest uppercase transition-colors ${viewSide === 'front' ? 'text-black dark:text-white' : 'text-gray-400 hover:text-black dark:hover:text-white'}`}
+              >
+                FRONT
+              </button>
+              <div className="w-px h-3 bg-gray-300 dark:bg-gray-700 self-center" />
+              <button
+                onClick={() => setViewSide('back')}
+                className={`text-[10px] font-mono font-bold tracking-widest uppercase transition-colors ${viewSide === 'back' ? 'text-black dark:text-white' : 'text-gray-400 hover:text-black dark:hover:text-white'}`}
+              >
+                BACK
+              </button>
+            </div>
+          )}
 
-          <div className="absolute bottom-4 left-4 bg-white/80 backdrop-blur px-3 py-1 pointer-events-none">
-            <span className="text-[10px] font-mono tracking-widest uppercase">
-              {isHovering ? 'INSPECTING MATERIAL' : 'HOVER TO INSPECT'}
-            </span>
-          </div>
+          {/* Variant Controls */}
+          {hasVariants && (
+            <>
+              <button
+                onClick={handlePrev}
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-black/80 p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white dark:hover:bg-black text-black dark:text-white z-20"
+                aria-label="Previous Variant"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button
+                onClick={handleNext}
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-black/80 p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white dark:hover:bg-black text-black dark:text-white z-20"
+                aria-label="Next Variant"
+              >
+                <ChevronRight size={24} />
+              </button>
+
+              <div className="absolute top-4 right-4 bg-black/70 dark:bg-white/90 text-white dark:text-black text-xs font-mono px-3 py-1 rounded pointer-events-none uppercase tracking-widest z-10">
+                {currentVariantColor}
+              </div>
+            </>
+          )}
         </div>
 
         {/* Product Info */}

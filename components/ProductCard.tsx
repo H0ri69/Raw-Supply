@@ -1,33 +1,117 @@
 
-import React from 'react';
-import { Search } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Product } from '../types';
+import { useTheme } from './ThemeContext';
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const { theme } = useTheme();
+  const [currentVariantIndex, setCurrentVariantIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Initialize and React to Theme Changes for default selection
+  useEffect(() => {
+    if (product.variants && product.variants.length > 0) {
+      let targetIndex = 0;
+
+      // "Default tshirt as the opposite of the theme"
+      // Light Theme -> Want Black or Grey (Darker)
+      // Dark Theme -> Want White (Lighter)
+      if (theme === 'light') {
+        const blackIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('black'));
+        const greyIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('grey'));
+        if (blackIndex !== -1) targetIndex = blackIndex;
+        else if (greyIndex !== -1) targetIndex = greyIndex;
+        // else keep 0
+      } else {
+        const whiteIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('white'));
+        if (whiteIndex !== -1) targetIndex = whiteIndex;
+        // else keep 0
+      }
+
+      setCurrentVariantIndex(targetIndex);
+    }
+  }, [theme, product.variants]);
+
+  const hasVariants = product.variants && product.variants.length > 1;
+  const currentVariant = product.variants ? product.variants[currentVariantIndex] : null;
+
+  // Determine Image Source
+  // If hovering and we have a specific back image, show it. Otherwise front.
+  // If no variants, fallback to product.image
+  const imageSrc = currentVariant
+    ? (isHovered && currentVariant.back ? currentVariant.back : currentVariant.front)
+    : product.image;
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!product.variants) return;
+    setCurrentVariantIndex((prev) => (prev === 0 ? product.variants!.length - 1 : prev - 1));
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!product.variants) return;
+    setCurrentVariantIndex((prev) => (prev === product.variants!.length - 1 ? 0 : prev + 1));
+  };
+
   return (
     <article className="group relative flex flex-col h-full">
-      {/* Image Container - Clicking goes to details */}
-      <Link to={`/product/${product.id}`} className="relative aspect-[3/4] overflow-hidden bg-[#F0F0F0] dark:bg-[#1a1a1a] mb-6 block cursor-pointer">
-        <img
-          src={product.image}
-          alt={product.name}
-          loading="lazy"
-          className="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-in-out grayscale group-hover:grayscale-0"
-        />
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 dark:group-hover:bg-white/5 transition-colors duration-300" />
+      {/* Image Container */}
+      <div
+        className="relative aspect-[3/4] overflow-hidden bg-transparent mb-6 block"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <Link to={`/product/${product.id}`} className="block h-full w-full cursor-pointer">
+          <img
+            src={imageSrc}
+            alt={product.name}
+            loading="lazy"
+            className="h-full w-full object-contain object-center transition-transform duration-700 ease-in-out group-hover:scale-105 p-4"
+          />
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 dark:group-hover:bg-white/5 transition-colors duration-300" />
 
-        {/* Inspect Indicator */}
-        <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 px-2 py-1 backdrop-blur-sm">
-          <span className="flex items-center gap-1 text-[10px] font-mono uppercase tracking-widest">
-            <Search size={10} /> Inspect
-          </span>
-        </div>
-      </Link>
+          {/* Inspect Indicator */}
+          <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 px-2 py-1 backdrop-blur-sm pointer-events-none">
+            <span className="flex items-center gap-1 text-[10px] font-mono uppercase tracking-widest text-black">
+              <Search size={10} /> Inspect
+            </span>
+          </div>
+        </Link>
+
+        {/* Variant Cycling Controls */}
+        {hasVariants && (
+          <>
+            <button
+              onClick={handlePrev}
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-black/80 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white dark:hover:bg-black text-black dark:text-white"
+              aria-label="Previous Color"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button
+              onClick={handleNext}
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-black/80 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white dark:hover:bg-black text-black dark:text-white"
+              aria-label="Next Color"
+            >
+              <ChevronRight size={16} />
+            </button>
+
+            {/* Variant Label Toast */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 dark:bg-white/90 text-white dark:text-black text-[10px] font-mono px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none uppercase tracking-widest">
+              {currentVariant?.color}
+            </div>
+          </>
+        )}
+      </div>
 
       <div className="flex flex-col gap-1 flex-grow">
         <div className="flex justify-between items-start gap-4">

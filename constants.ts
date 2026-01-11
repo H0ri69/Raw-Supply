@@ -1,11 +1,35 @@
 
 import { Product, DropInfo } from './types';
 
+// Asset Imports
+import CapBlackFront from './Assets/Cap-Black-Front.png';
+import CapBlackBack from './Assets/Cap-Black-Back.png';
+import CapGreyFront from './Assets/Cap-Grey-Front.png';
+import CapGreyBack from './Assets/Cap-Grey-Back.png';
+
+import HorizontalGreenFront from './Assets/Horizontal-Green-Front.png';
+import HorizontalGreenBack from './Assets/Horizontal-Green-Back.png';
+import HorizontalGreyFront from './Assets/Horizontal-Grey-Front.png';
+import HorizontalGreyBack from './Assets/Horizontal-Grey-Back.png';
+import HorizontalOrangeFront from './Assets/Horizontal-Orange-Front.png';
+import HorizontalOrangeBack from './Assets/Horizontal-Orange-Back.png';
+import HorizontalWhiteFront from './Assets/Horizontal-White-Front.png';
+import HorizontalWhiteBack from './Assets/Horizontal-White-Back.png';
+
+import VerticalGreenFront from './Assets/Vertical-Green-Front.png';
+import VerticalGreenBack from './Assets/Vertical-Green-Back.png';
+import VerticalGreyFront from './Assets/Vertical-Grey-Front.png';
+import VerticalGreyBack from './Assets/Vertical-Grey-Back.png';
+import VerticalOrangeFront from './Assets/Vertical-Orange-Front.png';
+import VerticalOrangeBack from './Assets/Vertical-Orange-Back.png';
+import VerticalWhiteFront from './Assets/Vertical-White-Front.png';
+import VerticalWhiteBack from './Assets/Vertical-White-Back.png';
+
 // USER ORIGINAL ASSETS (Product Specific) - Keeping these as requested
 const LOGO_URL = 'https://files.fm/thumb_show.php?i=6vpzuj4gvz';
-const CAP_URL = 'https://files.fm/thumb_show.php?i=vybja3meak';
-const HORIZONTAL_TEES_URL = 'https://files.fm/thumb_show.php?i=q6h5dt9wvd';
-const VERTICAL_TEES_URL = 'https://files.fm/thumb_show.php?i=ddtb6tyrtt';
+const CAP_URL = CapBlackFront;
+const HORIZONTAL_TEES_URL = HorizontalWhiteFront;
+const VERTICAL_TEES_URL = VerticalWhiteFront;
 
 // RELIABLE UNSPLASH ASSETS
 const HERO_URL = 'https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=2500&auto=format&fit=crop'; // Darker, more raw fashion vibe
@@ -40,28 +64,44 @@ export const PRODUCTS: Product[] = [
     id: 1,
     name: "RAW DISTRESSED CAP",
     price: 29.90,
-    image: CAP_URL,
+    image: CapBlackFront,
     description: "6-panel dad hat featuring organic distressing and the signature flower embroidery. 100% Cotton. Adjustable strap.",
     category: 'accessories',
-    drop: 'DROP 001'
+    drop: 'DROP 001',
+    variants: [
+      { color: 'Black', front: CapBlackFront, back: CapBlackBack },
+      { color: 'Grey', front: CapGreyFront, back: CapGreyBack },
+    ]
   },
   {
     id: 2,
     name: "ESSENTIAL HORIZONTAL TEE",
     price: 29.90,
-    image: HORIZONTAL_TEES_URL,
+    image: HorizontalWhiteFront,
     description: "Heavyweight cotton tee with tonal horizontal RAW branding. Boxy fit. Pre-shrunk.",
     category: 'men',
-    drop: 'DROP 001'
+    drop: 'DROP 001',
+    variants: [
+      { color: 'White', front: HorizontalWhiteFront, back: HorizontalWhiteBack },
+      { color: 'Grey', front: HorizontalGreyFront, back: HorizontalGreyBack },
+      { color: 'Green', front: HorizontalGreenFront, back: HorizontalGreenBack },
+      { color: 'Orange', front: HorizontalOrangeFront, back: HorizontalOrangeBack },
+    ]
   },
   {
     id: 3,
     name: "VERTICAL ARCHITECT TEE",
     price: 29.90,
-    image: VERTICAL_TEES_URL,
+    image: VerticalWhiteFront,
     description: "Statement piece featuring vertical architectural branding. Earth tone dye process. 240gsm cotton.",
     category: 'men',
-    drop: 'DROP 001'
+    drop: 'DROP 001',
+    variants: [
+      { color: 'White', front: VerticalWhiteFront, back: VerticalWhiteBack },
+      { color: 'Grey', front: VerticalGreyFront, back: VerticalGreyBack },
+      { color: 'Green', front: VerticalGreenFront, back: VerticalGreenBack },
+      { color: 'Orange', front: VerticalOrangeFront, back: VerticalOrangeBack },
+    ]
   }
 ];
 
