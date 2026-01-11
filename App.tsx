@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { MemoryRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './components/ThemeContext';
 import Navbar from './components/Navbar';
