@@ -7,7 +7,7 @@ import PageTransition from '../components/PageTransition';
 const Socials: React.FC = () => {
   return (
     <PageTransition>
-      <div className="pt-24 min-h-screen bg-[#111111] text-[#F9F9F9] flex flex-col items-center justify-center">
+      <div className="pt-24 min-h-screen bg-[#F9F9F9] dark:bg-[#111111] text-black dark:text-white flex flex-col items-center justify-center">
         <main className="max-w-4xl w-full px-6 py-12">
           <motion.h1
             initial={{ opacity: 0, scale: 0.95 }}
@@ -15,7 +15,7 @@ const Socials: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="text-5xl md:text-8xl font-black mb-20 text-center uppercase tracking-tighter leading-[0.85]"
           >
-            Connect<br /><span className="text-gray-600">With Us</span>
+            Connect<br /><span className="text-gray-400 dark:text-gray-600">With Us</span>
           </motion.h1>
 
           <nav className="space-y-4" aria-label="Social Media Links">
@@ -30,7 +30,7 @@ const Socials: React.FC = () => {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between p-8 border-t border-white/10 hover:bg-white hover:text-black transition-all duration-300 focus:outline-none focus:bg-white focus:text-black focus:ring-2 focus:ring-white rounded-sm"
+                  className="group flex items-center justify-between p-8 border-t border-black/10 dark:border-white/10 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300 focus:outline-none focus:bg-black focus:text-white dark:focus:bg-white dark:focus:text-black focus:ring-2 focus:ring-black dark:focus:ring-white rounded-sm"
                   aria-label={`Visit our ${link.platform} page`}
                 >
                   <div className="flex items-center gap-8">
@@ -52,7 +52,7 @@ const Socials: React.FC = () => {
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="border-t border-white/10 origin-left"
+              className="border-t border-black/10 dark:border-white/10 origin-left"
             />
           </nav>
 
@@ -62,7 +62,7 @@ const Socials: React.FC = () => {
             transition={{ duration: 1, delay: 1 }}
             className="mt-24 text-center"
           >
-            <p className="font-mono text-xs text-gray-500 tracking-[0.2em] uppercase">
+            <p className="font-mono text-xs text-gray-400 dark:text-gray-600 tracking-[0.2em] uppercase">
               #RawSupply
             </p>
           </motion.div>

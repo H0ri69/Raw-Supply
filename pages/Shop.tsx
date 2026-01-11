@@ -6,13 +6,7 @@ import { Product } from '../types';
 import PageTransition from '../components/PageTransition';
 import { Reveal } from '../components/Reveal';
 
-interface ShopProps {
-  addToCart: (product: Product) => void;
-}
-
-type CategoryFilter = 'all' | 'men' | 'women' | 'accessories';
-
-const Shop: React.FC<ShopProps> = ({ addToCart }) => {
+const Shop: React.FC = () => {
   const [filter, setFilter] = useState<CategoryFilter>('all');
 
   const filteredProducts = filter === 'all'
@@ -29,9 +23,9 @@ const Shop: React.FC<ShopProps> = ({ addToCart }) => {
   return (
     <PageTransition>
       <div className="pt-32 pb-24 px-6 lg:px-8 max-w-7xl mx-auto min-h-screen">
-        <header className="flex flex-col md:flex-row justify-between items-baseline mb-16 border-b border-gray-200 pb-8">
+        <header className="flex flex-col md:flex-row justify-between items-baseline mb-16 border-b border-gray-200 dark:border-gray-800 pb-8">
           <Reveal>
-            <h1 className="text-5xl lg:text-7xl font-black tracking-tighter uppercase mb-4 md:mb-0">Shop</h1>
+            <h1 className="text-5xl lg:text-7xl font-black tracking-tighter uppercase mb-4 md:mb-0 text-black dark:text-white">Shop</h1>
           </Reveal>
 
           {/* Category Filters */}
@@ -41,7 +35,7 @@ const Shop: React.FC<ShopProps> = ({ addToCart }) => {
                 <button
                   key={cat.value}
                   onClick={() => setFilter(cat.value)}
-                  className={`font-mono text-sm tracking-widest uppercase transition-colors hover:text-black focus:outline-none ${filter === cat.value ? 'text-black border-b border-black' : 'text-gray-400'
+                  className={`font-mono text-sm tracking-widest uppercase transition-colors hover:text-black dark:hover:text-white focus:outline-none ${filter === cat.value ? 'text-black dark:text-white border-b border-black dark:border-white' : 'text-gray-400 dark:text-gray-500'
                     }`}
                 >
                   {cat.label}
@@ -58,11 +52,11 @@ const Shop: React.FC<ShopProps> = ({ addToCart }) => {
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product, index) => (
               <Reveal key={product.id} delay={index * 0.1}>
-                <ProductCard product={product} onAddToCart={addToCart} />
+                <ProductCard product={product} />
               </Reveal>
             ))
           ) : (
-            <div className="col-span-full py-20 text-center text-gray-400 font-mono uppercase tracking-widest">
+            <div className="col-span-full py-20 text-center text-gray-400 dark:text-gray-500 font-mono uppercase tracking-widest">
               No items found in this category.
             </div>
           )}

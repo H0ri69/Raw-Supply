@@ -11,6 +11,7 @@
     rel="stylesheet">
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
@@ -40,6 +41,11 @@
       /* IE and Edge */
       scrollbar-width: none;
       /* Firefox */
+    }
+
+    /* Smooth Theme Transition */
+    body {
+      transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
     }
   </style>
 </head>

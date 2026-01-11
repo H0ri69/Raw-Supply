@@ -39,7 +39,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 1,
     name: "RAW DISTRESSED CAP",
-    price: 35.00,
+    price: 29.90,
     image: CAP_URL,
     description: "6-panel dad hat featuring organic distressing and the signature flower embroidery. 100% Cotton. Adjustable strap.",
     category: 'accessories',
@@ -48,7 +48,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 2,
     name: "ESSENTIAL HORIZONTAL TEE",
-    price: 45.00,
+    price: 29.90,
     image: HORIZONTAL_TEES_URL,
     description: "Heavyweight cotton tee with tonal horizontal RAW branding. Boxy fit. Pre-shrunk.",
     category: 'men',
@@ -57,7 +57,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 3,
     name: "VERTICAL ARCHITECT TEE",
-    price: 45.00,
+    price: 29.90,
     image: VERTICAL_TEES_URL,
     description: "Statement piece featuring vertical architectural branding. Earth tone dye process. 240gsm cotton.",
     category: 'men',
