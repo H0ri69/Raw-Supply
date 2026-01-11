@@ -100,7 +100,7 @@ const DropSection: React.FC<{
         {/* Content Area */}
         {isLocked ? (
           // Locked / Mystery State
-          <div className="w-full h-96 bg-gray-100 dark:bg-gray-900 relative overflow-hidden flex items-center justify-center group">
+          <div className="w-full h-96 bg-[#eeeeee] dark:bg-[#222222] relative overflow-hidden flex items-center justify-center group">
             <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply dark:mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
 
             <div className="text-center z-10 relative">

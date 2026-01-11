@@ -25,6 +25,9 @@ import VerticalOrangeBack from './Assets/Vertical-Orange-Back.png';
 import VerticalWhiteFront from './Assets/Vertical-White-Front.png';
 import VerticalWhiteBack from './Assets/Vertical-White-Back.png';
 
+import LogoBlack from './Assets/Logo-Black.png';
+import LogoWhite from './Assets/Logo-White.png';
+
 // USER ORIGINAL ASSETS (Product Specific) - Keeping these as requested
 const LOGO_URL = 'https://files.fm/thumb_show.php?i=6vpzuj4gvz';
 const CAP_URL = CapBlackFront;
@@ -42,6 +45,8 @@ const EDITORIAL_ACCESSORIES_URL = 'https://images.unsplash.com/photo-15760531397
 
 export const ASSETS = {
   logo: LOGO_URL,
+  logoBlack: LogoBlack,
+  logoWhite: LogoWhite,
   hero: HERO_URL,
   cap: CAP_URL,
   teeHorizontal: HORIZONTAL_TEES_URL,
@@ -62,7 +67,7 @@ export const PRODUCTS: Product[] = [
   // DROP 001 - The Foundation
   {
     id: 1,
-    name: "RAW DISTRESSED CAP",
+    name: "HAT 001",
     price: 29.90,
     image: CapBlackFront,
     description: "6-panel dad hat featuring organic distressing and the signature flower embroidery. 100% Cotton. Adjustable strap.",
@@ -75,7 +80,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 2,
-    name: "ESSENTIAL HORIZONTAL TEE",
+    name: "TEE 002",
     price: 29.90,
     image: HorizontalWhiteFront,
     description: "Heavyweight cotton tee with tonal horizontal RAW branding. Boxy fit. Pre-shrunk.",
@@ -90,7 +95,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 3,
-    name: "VERTICAL ARCHITECT TEE",
+    name: "TEE 001",
     price: 29.90,
     image: VerticalWhiteFront,
     description: "Statement piece featuring vertical architectural branding. Earth tone dye process. 240gsm cotton.",

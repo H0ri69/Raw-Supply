@@ -29,10 +29,11 @@ const Navbar: React.FC = () => {
               className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white rounded-sm p-1"
               aria-label="Raw Supply Home"
             >
-              <div className="w-8 h-8 bg-black dark:bg-white rounded-full overflow-hidden border border-black dark:border-white group-hover:scale-105 transition-transform duration-300">
-                <img src={ASSETS.logo} alt="" className="w-full h-full object-cover opacity-80" />
-              </div>
-              <span className="font-black text-lg tracking-tighter uppercase text-black dark:text-white transition-colors duration-500">Raw Supply</span>
+              <img
+                src={theme === 'dark' ? ASSETS.logoWhite : ASSETS.logoBlack}
+                alt="Raw Supply"
+                className="h-8 md:h-10 w-auto object-contain transition-opacity duration-300"
+              />
             </Link>
           </div>
 

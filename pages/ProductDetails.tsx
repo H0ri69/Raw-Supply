@@ -2,8 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { PRODUCTS } from '../constants';
 import { useTheme } from '../components/ThemeContext';
+import SizeChart from '../components/SizeChart';
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -81,11 +83,18 @@ const ProductDetails: React.FC = () => {
           className="relative aspect-[3/4] bg-transparent overflow-hidden group"
         >
           {/* Base Image */}
-          <img
-            src={currentImage}
-            alt={product.name}
-            className="w-full h-full object-contain p-8"
-          />
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={currentImage}
+              src={currentImage}
+              alt={product.name}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+              className="w-full h-full object-contain p-8 absolute inset-0"
+            />
+          </AnimatePresence>
 
           {/* View Toggle (Front/Back) */}
           {currentVariant && currentVariant.back && (
@@ -158,8 +167,12 @@ const ProductDetails: React.FC = () => {
             </div>
 
             <div className="pt-8 border-t border-gray-200 dark:border-gray-800">
-              <p className="text-center font-mono text-xs text-gray-400 dark:text-gray-600 uppercase tracking-widest">
-                Archive Only / Not for Sale
+              {(product.name === 'TEE 001' || product.name === 'TEE 002') && (
+                <SizeChart productType={product.name} />
+              )}
+
+              <p className="text-center font-mono text-xs text-gray-400 dark:text-gray-600 uppercase tracking-widest mt-8">
+                Preview Only / Not for Sale Yet
               </p>
             </div>
           </div>
