@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { PRODUCTS } from '../constants';
 import ProductCard from '../components/ProductCard';
 import { Product } from '../types';
+import PageTransition from '../components/PageTransition';
+import { Reveal } from '../components/Reveal';
 
 interface ShopProps {
   addToCart: (product: Product) => void;
@@ -13,8 +15,8 @@ type CategoryFilter = 'all' | 'men' | 'women' | 'accessories';
 const Shop: React.FC<ShopProps> = ({ addToCart }) => {
   const [filter, setFilter] = useState<CategoryFilter>('all');
 
-  const filteredProducts = filter === 'all' 
-    ? PRODUCTS 
+  const filteredProducts = filter === 'all'
+    ? PRODUCTS
     : PRODUCTS.filter(p => p.category === filter);
 
   const categories: { label: string; value: CategoryFilter }[] = [
@@ -25,41 +27,48 @@ const Shop: React.FC<ShopProps> = ({ addToCart }) => {
   ];
 
   return (
-    <div className="pt-32 pb-24 px-6 lg:px-8 max-w-7xl mx-auto min-h-screen">
-      <header className="flex flex-col md:flex-row justify-between items-baseline mb-16 border-b border-gray-200 pb-8">
-        <h1 className="text-5xl lg:text-7xl font-black tracking-tighter uppercase mb-4 md:mb-0">Shop</h1>
-        
-        {/* Category Filters */}
-        <div className="flex flex-wrap gap-8">
-          {categories.map((cat) => (
-            <button
-              key={cat.value}
-              onClick={() => setFilter(cat.value)}
-              className={`font-mono text-sm tracking-widest uppercase transition-colors hover:text-black focus:outline-none ${
-                filter === cat.value ? 'text-black border-b border-black' : 'text-gray-400'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
-      </header>
+    <PageTransition>
+      <div className="pt-32 pb-24 px-6 lg:px-8 max-w-7xl mx-auto min-h-screen">
+        <header className="flex flex-col md:flex-row justify-between items-baseline mb-16 border-b border-gray-200 pb-8">
+          <Reveal>
+            <h1 className="text-5xl lg:text-7xl font-black tracking-tighter uppercase mb-4 md:mb-0">Shop</h1>
+          </Reveal>
 
-      <section 
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-10"
-        aria-label="Product Grid"
-      >
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
-          ))
-        ) : (
-          <div className="col-span-full py-20 text-center text-gray-400 font-mono uppercase tracking-widest">
-            No items found in this category.
-          </div>
-        )}
-      </section>
-    </div>
+          {/* Category Filters */}
+          <Reveal delay={0.2}>
+            <div className="flex flex-wrap gap-8">
+              {categories.map((cat) => (
+                <button
+                  key={cat.value}
+                  onClick={() => setFilter(cat.value)}
+                  className={`font-mono text-sm tracking-widest uppercase transition-colors hover:text-black focus:outline-none ${filter === cat.value ? 'text-black border-b border-black' : 'text-gray-400'
+                    }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+          </Reveal>
+        </header>
+
+        <section
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-10"
+          aria-label="Product Grid"
+        >
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product, index) => (
+              <Reveal key={product.id} delay={index * 0.1}>
+                <ProductCard product={product} onAddToCart={addToCart} />
+              </Reveal>
+            ))
+          ) : (
+            <div className="col-span-full py-20 text-center text-gray-400 font-mono uppercase tracking-widest">
+              No items found in this category.
+            </div>
+          )}
+        </section>
+      </div>
+    </PageTransition>
   );
 };
 

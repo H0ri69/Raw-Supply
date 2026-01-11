@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { MemoryRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import CartDrawer from './components/CartDrawer';
 import Home from './pages/Home';
@@ -26,7 +27,8 @@ const ScrollToTop = () => {
 // Simple noise SVG data URI for the raw texture effect
 const NOISE_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E")`;
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
+  const location = useLocation();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -50,7 +52,7 @@ const App: React.FC = () => {
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <Router>
+    <>
       <ScrollToTop />
       {/* Global Noise Overlay for "Raw" Aesthetic - Adjusted for Light Theme */}
       <div
@@ -69,18 +71,21 @@ const App: React.FC = () => {
         />
 
         <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/shop" element={<Shop addToCart={addToCart} />} />
-            <Route path="/drops" element={<Drops addToCart={addToCart} />} />
-            <Route path="/product/:id" element={<ProductDetails addToCart={addToCart} />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/socials" element={<Socials />} />
-            <Route path="/socials" element={<Socials />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/shipping-returns" element={<ShippingReturns />} />
-          </Routes>
+          <AnimatePresence mode="wait">
+            <div key={location.pathname} className="w-full">
+              <Routes location={location}>
+                <Route path="/" element={<Home />} />
+                <Route path="/shop" element={<Shop addToCart={addToCart} />} />
+                <Route path="/drops" element={<Drops addToCart={addToCart} />} />
+                <Route path="/product/:id" element={<ProductDetails addToCart={addToCart} />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/socials" element={<Socials />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-of-service" element={<TermsOfService />} />
+                <Route path="/shipping-returns" element={<ShippingReturns />} />
+              </Routes>
+            </div>
+          </AnimatePresence>
         </main>
 
         <footer className="bg-black text-white py-12 px-6 border-t border-gray-800">
@@ -100,6 +105,14 @@ const App: React.FC = () => {
           </div>
         </footer>
       </div>
+    </>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 };

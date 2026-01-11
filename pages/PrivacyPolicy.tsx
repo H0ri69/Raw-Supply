@@ -36,7 +36,7 @@ const PrivacyPolicy: React.FC = () => {
                 </section>
 
                 <div className="pt-12 border-t border-gray-200">
-                    <p className="text-xs text-gray-400">LAST UPDATED: 2024</p>
+                    <p className="text-xs text-gray-400">LAST UPDATED: 2026</p>
                 </div>
             </div>
         </div>
