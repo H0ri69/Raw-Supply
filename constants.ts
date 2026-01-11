@@ -66,8 +66,6 @@ export const PRODUCTS: Product[] = [
 ];
 
 export const SOCIAL_LINKS = [
-  { platform: 'Instagram', url: '#', handle: '@rawsupply' },
-  { platform: 'Twitter', url: '#', handle: '@rawsupply_official' },
-  { platform: 'TikTok', url: '#', handle: '@raw.supply' },
-  { platform: 'Pinterest', url: '#', handle: 'RawMoodboard' },
+  { platform: 'Instagram', url: 'https://www.instagram.com/rawspply/', handle: '@rawspply' },
+  { platform: 'TikTok', url: 'https://www.tiktok.com/@rawspply', handle: '@rawspply' },
 ];

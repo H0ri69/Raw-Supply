@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { MemoryRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { MemoryRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import CartDrawer from './components/CartDrawer';
 import Home from './pages/Home';
@@ -9,6 +9,9 @@ import Drops from './pages/Drops';
 import About from './pages/About';
 import Socials from './pages/Socials';
 import ProductDetails from './pages/ProductDetails';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import ShippingReturns from './pages/ShippingReturns';
 import { Product, CartItem } from './types';
 
 // Scroll to top component
@@ -50,19 +53,19 @@ const App: React.FC = () => {
     <Router>
       <ScrollToTop />
       {/* Global Noise Overlay for "Raw" Aesthetic - Adjusted for Light Theme */}
-      <div 
+      <div
         className="fixed inset-0 pointer-events-none z-[9999] opacity-30 mix-blend-multiply"
         style={{ backgroundImage: NOISE_SVG }}
       />
-      
+
       <div className="min-h-screen flex flex-col selection:bg-black selection:text-white bg-[#F9F9F9]">
         <Navbar cartCount={cartCount} toggleCart={() => setIsCartOpen(true)} />
-        
-        <CartDrawer 
-          isOpen={isCartOpen} 
-          onClose={() => setIsCartOpen(false)} 
-          cartItems={cart} 
-          removeFromCart={removeFromCart} 
+
+        <CartDrawer
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+          cartItems={cart}
+          removeFromCart={removeFromCart}
         />
 
         <main className="flex-grow">
@@ -73,6 +76,10 @@ const App: React.FC = () => {
             <Route path="/product/:id" element={<ProductDetails addToCart={addToCart} />} />
             <Route path="/about" element={<About />} />
             <Route path="/socials" element={<Socials />} />
+            <Route path="/socials" element={<Socials />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/shipping-returns" element={<ShippingReturns />} />
           </Routes>
         </main>
 
@@ -83,12 +90,12 @@ const App: React.FC = () => {
               <p className="text-gray-400 text-sm mt-2 font-mono">RAW AS WAR</p>
             </div>
             <div className="flex flex-col md:flex-row gap-6 md:gap-12 font-mono text-sm text-gray-400">
-               <a href="#" className="hover:text-white transition-colors">PRIVACY POLICY</a>
-               <a href="#" className="hover:text-white transition-colors">TERMS OF SERVICE</a>
-               <a href="#" className="hover:text-white transition-colors">SHIPPING & RETURNS</a>
+              <Link to="/privacy-policy" className="hover:text-white transition-colors">PRIVACY POLICY</Link>
+              <Link to="/terms-of-service" className="hover:text-white transition-colors">TERMS OF SERVICE</Link>
+              <Link to="/shipping-returns" className="hover:text-white transition-colors">SHIPPING & RETURNS</Link>
             </div>
             <div className="text-gray-500 text-xs font-mono">
-              © 2024 RAW SUPPLY.
+              © 2026 RAW SUPPLY.
             </div>
           </div>
         </footer>
