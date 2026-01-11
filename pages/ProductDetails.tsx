@@ -120,14 +120,14 @@ const ProductDetails: React.FC = () => {
             <>
               <button
                 onClick={handlePrev}
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-black/80 p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white dark:hover:bg-black text-black dark:text-white z-20"
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-black/80 p-3 rounded-full opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity hover:bg-white dark:hover:bg-black text-black dark:text-white z-20"
                 aria-label="Previous Variant"
               >
                 <ChevronLeft size={24} />
               </button>
               <button
                 onClick={handleNext}
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-black/80 p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white dark:hover:bg-black text-black dark:text-white z-20"
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-black/80 p-3 rounded-full opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity hover:bg-white dark:hover:bg-black text-black dark:text-white z-20"
                 aria-label="Next Variant"
               >
                 <ChevronRight size={24} />
