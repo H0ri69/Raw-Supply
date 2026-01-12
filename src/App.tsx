@@ -39,7 +39,7 @@ const AppContent: React.FC = () => {
         style={{ backgroundImage: NOISE_SVG }}
       />
 
-      <div className="min-h-screen flex flex-col selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black bg-[#F9F9F9] dark:bg-[#111111] transition-colors duration-500 ease-in-out">
+      <div className="min-h-screen w-full overflow-x-hidden flex flex-col selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black bg-[#F9F9F9] dark:bg-[#111111] transition-colors duration-500 ease-in-out">
         <Navbar />
 
         <main className="flex-grow">
