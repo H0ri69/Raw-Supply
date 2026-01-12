@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, X, ZoomIn } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PRODUCTS } from '../constants';
 import { useTheme } from '../components/ThemeContext';
@@ -40,6 +40,7 @@ const ProductDetails: React.FC = () => {
   const [currentVariantIndex, setCurrentVariantIndex] = useState(0);
   const [viewSide, setViewSide] = useState<'front' | 'back'>('front');
   const [inspectionBg, setInspectionBg] = useState('transparent');
+  const [isZoomOpen, setIsZoomOpen] = useState(false);
 
   // Initialize and React to Theme Changes for default selection
   useEffect(() => {
@@ -142,9 +143,15 @@ const ProductDetails: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.05 }}
               transition={{ duration: 0.3 }}
-              className="w-full h-full object-contain p-8 absolute inset-0"
+              onClick={() => setIsZoomOpen(true)}
+              className="w-full h-full object-contain p-8 absolute inset-0 cursor-zoom-in"
             />
           </AnimatePresence>
+
+          {/* Zoom Hint */}
+          <div className="absolute bottom-6 right-6 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/5 dark:bg-white/10 backdrop-blur-sm p-2 rounded-full text-black dark:text-white">
+            <ZoomIn size={20} />
+          </div>
 
           {/* View Toggle (Front/Back) */}
           {currentVariant && currentVariant.back && (
@@ -260,6 +267,79 @@ const ProductDetails: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Fullscreen Zoom Modal */}
+      <AnimatePresence>
+        {isZoomOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-[#F9F9F9]/95 dark:bg-[#111111]/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 cursor-zoom-out"
+            onClick={() => setIsZoomOpen(false)}
+          >
+            <button
+              onClick={() => setIsZoomOpen(false)}
+              className="absolute top-6 right-6 p-2 bg-black dark:bg-white text-white dark:text-black rounded-full hover:scale-110 transition-transform z-50"
+              aria-label="Close Zoom"
+            >
+              <X size={24} />
+            </button>
+            <motion.img
+              key={currentImage + '-zoom'}
+              src={currentImage}
+              alt={product.name}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="max-w-full max-h-full object-contain shadow-2xl pointer-events-none select-none"
+              onClick={(e) => e.stopPropagation()}
+            />
+
+            {/* Modal Controls */}
+            <div className="absolute inset-0 pointer-events-none">
+              {/* Variant Navigation */}
+              {hasVariants && (
+                <>
+                  <button
+                    onClick={handlePrev}
+                    className="absolute left-6 top-1/2 -translate-y-1/2 p-4 text-black hover:text-gray-600 dark:text-white dark:hover:text-gray-300 transition-colors pointer-events-auto"
+                    aria-label="Previous Variant"
+                  >
+                    <ChevronLeft size={48} strokeWidth={1} />
+                  </button>
+                  <button
+                    onClick={handleNext}
+                    className="absolute right-6 top-1/2 -translate-y-1/2 p-4 text-black hover:text-gray-600 dark:text-white dark:hover:text-gray-300 transition-colors pointer-events-auto"
+                    aria-label="Next Variant"
+                  >
+                    <ChevronRight size={48} strokeWidth={1} />
+                  </button>
+                </>
+              )}
+
+              {/* View Side Toggle */}
+              {currentVariant && currentVariant.back && (
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-6 pointer-events-auto">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setViewSide('front'); }}
+                    className={`text-sm font-mono font-bold tracking-widest uppercase transition-colors ${viewSide === 'front' ? 'text-black dark:text-white border-b border-black dark:border-white' : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'}`}
+                  >
+                    FRONT
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setViewSide('back'); }}
+                    className={`text-sm font-mono font-bold tracking-widest uppercase transition-colors ${viewSide === 'back' ? 'text-black dark:text-white border-b border-black dark:border-white' : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'}`}
+                  >
+                    BACK
+                  </button>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
