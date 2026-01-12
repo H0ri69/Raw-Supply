@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Product } from '../types';
 import { useTheme } from './ThemeContext';
@@ -12,7 +12,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { theme } = useTheme();
   const [currentVariantIndex, setCurrentVariantIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const [showBack, setShowBack] = useState(false);
 
   // Initialize and React to Theme Changes for default selection
   useEffect(() => {
@@ -41,12 +41,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const hasVariants = product.variants && product.variants.length > 1;
   const currentVariant = product.variants ? product.variants[currentVariantIndex] : null;
 
-  // Determine Image Source
-  // If hovering and we have a specific back image, show it. Otherwise front.
-  // If no variants, fallback to product.image
+  // Determine Image Source - now based on explicit showBack state
   const imageSrc = currentVariant
-    ? (isHovered && currentVariant.back ? currentVariant.back : currentVariant.front)
+    ? (showBack && currentVariant.back ? currentVariant.back : currentVariant.front)
     : product.image;
+
+  const hasBackImage = currentVariant && currentVariant.back;
 
   const handlePrev = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -62,13 +62,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     setCurrentVariantIndex((prev) => (prev === product.variants!.length - 1 ? 0 : prev + 1));
   };
 
+  const toggleBack = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowBack(!showBack);
+  };
+
   return (
     <article className="group relative flex flex-col h-full">
       {/* Image Container */}
       <div
         className="relative aspect-[3/4] overflow-hidden bg-transparent mb-6 block"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
         <Link to={`/product/${product.id}`} className="block h-full w-full cursor-pointer">
           <img
@@ -86,6 +90,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </span>
           </div>
         </Link>
+
+        {/* Show Back Button */}
+        {hasBackImage && (
+          <button
+            onClick={toggleBack}
+            className="absolute top-4 right-4 bg-white/90 dark:bg-black/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white dark:hover:bg-black text-black dark:text-white z-10"
+            aria-label={showBack ? "Show Front" : "Show Back"}
+            title={showBack ? "Show Front" : "Show Back"}
+          >
+            <RotateCcw size={14} />
+          </button>
+        )}
 
         {/* Variant Cycling Controls */}
         {hasVariants && (

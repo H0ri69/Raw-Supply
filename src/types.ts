@@ -16,6 +16,8 @@ export interface Product {
   variants?: ProductVariant[];
 }
 
+export type CategoryFilter = 'all' | 'men' | 'women' | 'accessories';
+
 export interface CartItem extends Product {
   quantity: number;
 }

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { PRODUCTS } from '../constants';
 import ProductCard from '../components/ProductCard';
-import { Product } from '../types';
+import { CategoryFilter } from '../types';
 import PageTransition from '../components/PageTransition';
 import { Reveal } from '../components/Reveal';
 

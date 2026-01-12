@@ -7,6 +7,29 @@ import { PRODUCTS } from '../constants';
 import { useTheme } from '../components/ThemeContext';
 import SizeChart from '../components/SizeChart';
 
+// Color mapping for swatches
+const COLOR_MAP: Record<string, string> = {
+  'white': '#FFFFFF',
+  'black': '#1a1a1a',
+  'grey': '#6B7280',
+  'green': '#22C55E',
+  'orange': '#F97316',
+};
+
+// Neutral background options per theme
+const NEUTRAL_BACKGROUNDS = {
+  light: [
+    { name: 'Default', value: 'transparent' },
+    { name: 'Light Grey', value: '#E5E5E5' },
+    { name: 'Mid Grey', value: '#9CA3AF' },
+  ],
+  dark: [
+    { name: 'Default', value: 'transparent' },
+    { name: 'Dark Grey', value: '#374151' },
+    { name: 'Mid Grey', value: '#6B7280' },
+  ],
+};
+
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -16,6 +39,7 @@ const ProductDetails: React.FC = () => {
 
   const [currentVariantIndex, setCurrentVariantIndex] = useState(0);
   const [viewSide, setViewSide] = useState<'front' | 'back'>('front');
+  const [inspectionBg, setInspectionBg] = useState('transparent');
 
   // Initialize and React to Theme Changes for default selection
   useEffect(() => {
@@ -32,6 +56,10 @@ const ProductDetails: React.FC = () => {
       }
       setCurrentVariantIndex(targetIndex);
     }
+    // Reset background when theme changes
+
+     
+    setInspectionBg('transparent');
   }, [theme, product]);
 
   if (!product) {
@@ -54,6 +82,8 @@ const ProductDetails: React.FC = () => {
   const currentVariant = product.variants ? product.variants[currentVariantIndex] : null;
   const currentImage = currentVariant ? currentVariant[viewSide] : product.image;
   const currentVariantColor = currentVariant ? currentVariant.color : null;
+
+  const backgroundOptions = theme === 'light' ? NEUTRAL_BACKGROUNDS.light : NEUTRAL_BACKGROUNDS.dark;
 
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -80,8 +110,30 @@ const ProductDetails: React.FC = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
         {/* Image Inspection Area */}
         <div
-          className="relative aspect-[3/4] bg-transparent overflow-hidden group"
+          className="relative aspect-[3/4] overflow-hidden group rounded-lg transition-colors duration-300"
+          style={{ backgroundColor: inspectionBg }}
         >
+          {/* Background Selector */}
+          <div className="absolute top-4 left-4 flex gap-2 z-20">
+            {backgroundOptions.map((bg) => (
+              <button
+                key={bg.name}
+                onClick={() => setInspectionBg(bg.value)}
+                className={`w-6 h-6 rounded-full border-2 transition-all ${inspectionBg === bg.value
+                  ? 'border-black dark:border-white scale-110'
+                  : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                  }`}
+                style={{
+                  backgroundColor: bg.value === 'transparent'
+                    ? (theme === 'light' ? '#F9F9F9' : '#111111')
+                    : bg.value
+                }}
+                title={bg.name}
+                aria-label={`Set background to ${bg.name}`}
+              />
+            ))}
+          </div>
+
           {/* Base Image */}
           <AnimatePresence mode="wait">
             <motion.img
@@ -149,9 +201,41 @@ const ProductDetails: React.FC = () => {
             <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none mb-4 text-black dark:text-white">
               {product.name}
             </h1>
-            <p className="text-2xl font-mono text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-800 pb-8 mb-8">
+            <p className="text-2xl font-mono text-gray-500 dark:text-gray-400 pb-6 mb-6">
               ${product.price.toFixed(2)}
             </p>
+
+            {/* Color Swatches */}
+            {product.variants && product.variants.length > 1 && (
+              <div className="mb-8 border-b border-gray-200 dark:border-gray-800 pb-8">
+                <h3 className="text-xs font-bold uppercase tracking-widest mb-3 text-black dark:text-white">Color</h3>
+                <div className="flex gap-3">
+                  {product.variants.map((variant, index) => {
+                    const colorKey = variant.color.toLowerCase();
+                    const bgColor = COLOR_MAP[colorKey] || '#888888';
+                    const isSelected = currentVariantIndex === index;
+
+                    return (
+                      <button
+                        key={variant.color}
+                        onClick={() => setCurrentVariantIndex(index)}
+                        className={`w-8 h-8 rounded-full border-2 transition-all relative ${isSelected
+                          ? 'border-black dark:border-white scale-110 ring-2 ring-offset-2 ring-black dark:ring-white dark:ring-offset-[#111111]'
+                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:scale-105'
+                          }`}
+                        style={{ backgroundColor: bgColor }}
+                        title={variant.color}
+                        aria-label={`Select ${variant.color}`}
+                        aria-pressed={isSelected}
+                      />
+                    );
+                  })}
+                </div>
+                <p className="text-xs font-mono text-gray-500 dark:text-gray-400 mt-2 uppercase tracking-wide">
+                  {currentVariantColor}
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="space-y-8">

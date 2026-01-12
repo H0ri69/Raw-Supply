@@ -13,7 +13,7 @@ import ProductDetails from './pages/ProductDetails';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import ShippingReturns from './pages/ShippingReturns';
-import { Product } from './types';
+
 
 // Scroll to top component
 const ScrollToTop = () => {

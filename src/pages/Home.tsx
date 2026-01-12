@@ -21,7 +21,7 @@ const Home: React.FC = () => {
             transition={{ duration: 2, delay: 0.5 }}
             className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none"
           >
-            <span className="text-[40vw] font-black uppercase whitespace-nowrap text-black dark:text-white">Raw As War</span>
+            <span className="text-[40vw] font-black uppercase whitespace-nowrap text-black dark:text-white text-center w-full">Raw As War</span>
           </motion.div>
 
           <div className="relative z-10 flex flex-col items-center max-w-7xl mx-auto">
@@ -146,7 +146,7 @@ const Home: React.FC = () => {
                 className="w-full h-full object-cover grayscale hover:scale-105 transition-transform duration-1000 contrast-125 dark:invert"
               />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-white/80 font-black text-6xl uppercase mix-blend-difference tracking-tighter opacity-50">
+                <span className="text-white/80 font-black text-6xl uppercase mix-blend-difference tracking-tighter opacity-50 text-center">
                   Raw As War
                 </span>
               </div>
