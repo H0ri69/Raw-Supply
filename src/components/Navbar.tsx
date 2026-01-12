@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ShoppingBag, Menu, X, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { NavLink, Link } from 'react-router-dom';
 import { ASSETS } from '../constants';
 import { useTheme } from './ThemeContext';

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './components/ThemeContext';

@@ -54,12 +54,10 @@ const ProductDetails: React.FC = () => {
         const whiteIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('white'));
         if (whiteIndex !== -1) targetIndex = whiteIndex;
       }
-      setCurrentVariantIndex(targetIndex);
+      setCurrentVariantIndex((prev) => (prev !== targetIndex ? targetIndex : prev));
     }
     // Reset background when theme changes
-
-     
-    setInspectionBg('transparent');
+    setInspectionBg((prev) => (prev !== 'transparent' ? 'transparent' : prev));
   }, [theme, product]);
 
   if (!product) {
