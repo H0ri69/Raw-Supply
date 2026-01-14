@@ -40,12 +40,12 @@ const ProductDetails: React.FC = () => {
       let targetIndex = 0;
       if (theme === 'light') {
         const darkIndex = product.variants.findIndex(v =>
-          ['black', 'grey', 'shadow', 'steel'].some(c => v.color.toLowerCase().includes(c))
+          ['black', 'void', 'shadow', 'drab', 'grey', 'steel'].some(c => v.color.toLowerCase().includes(c))
         );
         if (darkIndex !== -1) targetIndex = darkIndex;
       } else {
         const lightIndex = product.variants.findIndex(v =>
-          ['white', 'bone', 'concrete'].some(c => v.color.toLowerCase().includes(c))
+          ['white', 'bone', 'concrete', 'ecru', 'frost', 'steel'].some(c => v.color.toLowerCase().includes(c))
         );
         if (lightIndex !== -1) targetIndex = lightIndex;
       }
@@ -95,8 +95,8 @@ const ProductDetails: React.FC = () => {
       className="min-h-screen bg-[#F9F9F9] dark:bg-[#111111] pt-32 pb-24 px-6 lg:px-12 transition-colors duration-500"
       style={{
         backgroundImage: theme === 'dark'
-          ? `radial-gradient(circle at 20% 30%, ${product.accentColor}15 0%, transparent 50%)`
-          : `radial-gradient(circle at 20% 30%, ${product.accentColor}08 0%, transparent 50%)`
+          ? `radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03) 0%, transparent 50%)`
+          : `radial-gradient(circle at 20% 30%, rgba(0,0,0,0.02) 0%, transparent 50%)`
       }}
     >
       <button
@@ -121,7 +121,7 @@ const ProductDetails: React.FC = () => {
                 onClick={() => setInspectionBg(bg.value)}
                 className={`w-6 h-6 rounded-full border-2 transition-all ${inspectionBg === bg.value
                   ? 'border-black dark:border-white scale-110'
-                  : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                  : 'border-black dark:border-white hover:border-gray-400 dark:hover:border-gray-500'
                   }`}
                 style={{
                   backgroundColor: bg.value === 'transparent'
@@ -202,8 +202,7 @@ const ProductDetails: React.FC = () => {
         <div className="flex flex-col justify-center">
           <div className="mb-2">
             <span
-              className="inline-block px-2 py-1 border text-[10px] font-mono font-bold uppercase tracking-widest mb-4 transition-colors"
-              style={{ borderColor: product.accentColor, color: product.accentColor }}
+              className="inline-block px-2 py-1 border border-black dark:border-white text-[10px] font-mono font-bold uppercase tracking-widest mb-4 transition-colors text-black dark:text-white"
             >
               {product.drop}
             </span>
@@ -226,15 +225,15 @@ const ProductDetails: React.FC = () => {
                       <button
                         key={variant.color}
                         onClick={() => setCurrentVariantIndex(index)}
-                        className={`w-8 h-8 rounded-full border-2 transition-all relative ${isSelected
-                          ? 'scale-110 ring-2 ring-offset-2 dark:ring-offset-[#111111]'
-                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:scale-105'
+                        className={`w-8 h-8 rounded-full border transition-all relative ${isSelected
+                          ? 'scale-110 ring-2 ring-offset-4 dark:ring-offset-[#111111]'
+                          : 'hover:scale-105'
                           }`}
                         style={{
                           backgroundColor: variant.hex,
-                          boxShadow: isSelected ? `0 0 15px ${variant.hex}50` : 'none',
-                          borderColor: isSelected ? product.accentColor : 'transparent',
-                          '--tw-ring-color': isSelected ? product.accentColor : 'transparent'
+                          boxShadow: isSelected ? (theme === 'dark' ? '0 0 20px rgba(255,255,255,0.1)' : '0 0 20px rgba(0,0,0,0.1)') : 'none',
+                          borderColor: theme === 'dark' ? '#FFFFFF' : '#000000',
+                          '--tw-ring-color': theme === 'dark' ? '#FFFFFF' : '#000000'
                         } as React.CSSProperties}
                         title={variant.color}
                         aria-label={`Select ${variant.color}`}

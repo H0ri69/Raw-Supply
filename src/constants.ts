@@ -89,7 +89,7 @@ export const PRODUCTS: Product[] = [
     drop: 'DROP 001',
     variants: [
       { color: 'Ecru', hex: '#f0ecdc', front: HorizontalWhiteFront, back: HorizontalWhiteBack },
-      { color: 'Steel', hex: '#4e4e4eff', front: HorizontalGreyFront, back: HorizontalGreyBack },
+      { color: 'Black', hex: '#4e4e4eff', front: HorizontalGreyFront, back: HorizontalGreyBack },
       { color: 'Coyote', hex: '#cea75d', front: HorizontalOrangeFront, back: HorizontalOrangeBack },
       { color: 'Drab', hex: '#8b8660', front: HorizontalGreenFront, back: HorizontalGreenBack },
     ],

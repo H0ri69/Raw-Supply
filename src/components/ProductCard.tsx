@@ -22,17 +22,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       // "Default tshirt as the opposite of the theme"
       // Light Theme -> Want Black or Grey (Darker)
       // Dark Theme -> Want White (Lighter)
-      if (product.name === 'TEE 001') {
-        const frostIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('frost'));
-        if (frostIndex !== -1) targetIndex = frostIndex;
-      } else if (theme === 'light') {
+      if (theme === 'light') {
         const darkIndex = product.variants.findIndex(v =>
-          ['black', 'grey', 'shadow', 'steel', 'void', 'drab'].some(c => v.color.toLowerCase().includes(c))
+          ['black', 'void', 'shadow', 'drab', 'grey', 'steel'].some(c => v.color.toLowerCase().includes(c))
         );
         if (darkIndex !== -1) targetIndex = darkIndex;
       } else {
         const lightIndex = product.variants.findIndex(v =>
-          ['white', 'bone', 'concrete', 'ecru', 'frost'].some(c => v.color.toLowerCase().includes(c))
+          ['white', 'bone', 'concrete', 'ecru', 'frost', 'steel'].some(c => v.color.toLowerCase().includes(c))
         );
         if (lightIndex !== -1) targetIndex = lightIndex;
       }
@@ -135,8 +132,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="flex flex-col gap-1 flex-grow">
         <div className="flex justify-between items-start gap-4">
           <Link to={`/product/${product.id}`}>
-            <h3 className="text-sm font-bold uppercase tracking-tight text-black dark:text-white leading-tight flex items-center gap-2 group-hover:underline decoration-2" style={{ textDecorationColor: product.accentColor }}>
-              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: product.accentColor }} />
+            <h3 className="text-sm font-bold uppercase tracking-tight text-black dark:text-white leading-tight flex items-center gap-2 group-hover:underline decoration-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white" />
               {product.name}
             </h3>
           </Link>
