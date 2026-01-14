@@ -28,25 +28,25 @@ const About: React.FC = () => {
         <div className="flex flex-col md:flex-row min-h-[80vh]">
           <div className="w-full md:w-1/2 p-12 md:p-24 bg-white dark:bg-black flex flex-col justify-center border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-900">
             <Reveal>
-              <h2 className="text-xs font-mono tracking-[0.3em] uppercase mb-6 text-gray-400 dark:text-gray-500">The Strategy</h2>
+              <h2 className="text-xs font-mono tracking-[0.3em] uppercase mb-6 text-gray-400 dark:text-gray-500">The Fashionable Conflict</h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 text-black dark:text-white">Raw As War</h3>
+              <h3 className="text-4xl font-black uppercase tracking-tighter mb-8 text-black dark:text-white">„Raw As War“</h3>
             </Reveal>
             <div className="prose prose-lg text-black dark:text-gray-300 space-y-8 font-mono text-sm leading-relaxed max-w-md">
               <Reveal delay={0.2}>
                 <p>
-                  <span className="font-bold border-b border-black dark:border-white">THE CONCEPT:</span> We view design not as decoration, but as a confrontation. The material fights the cut. The dye fights the fiber.
+                  <span className="font-bold border-b border-black dark:border-white">THE CONCEPT:</span> We view design as war of raw materials, where we try to capture the feeling of war in its core clothing nature, by repurposing war used cloth in the most fashionable yet raw way possible
                 </p>
               </Reveal>
               <Reveal delay={0.3}>
                 <p>
-                  <span className="font-bold border-b border-black dark:border-white">THE PALINDROME:</span> "RAW AS WAR" reads the same forward and backward. It creates a loop of creation and destruction. This cycle is embedded in every garment we produce.
+                  <span className="font-bold border-b border-black dark:border-white">THE PALINDROME:</span> The “RAW“ and “WAR" in our slogan reads the same forward and backward. It creates a loop of creation and destruction. This cycle of repurposing in every garment we produce.
                 </p>
               </Reveal>
               <Reveal delay={0.4}>
                 <p>
-                  We don't hide the seams. We don't polish the edges. We let the conflict show.
+                  We don't hide the seams. We don't polish the rough edges. We let the conflict of fabric show show.
                 </p>
               </Reveal>
             </div>
