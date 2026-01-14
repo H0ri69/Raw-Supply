@@ -1,6 +1,7 @@
 
 export interface ProductVariant {
   color: string;
+  hex: string;
   front: string;
   back: string;
 }
@@ -14,6 +15,7 @@ export interface Product {
   category: 'men' | 'women' | 'accessories';
   drop: string;
   variants?: ProductVariant[];
+  accentColor?: string;
 }
 
 export type CategoryFilter = 'all' | 'men' | 'women' | 'accessories';

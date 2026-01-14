@@ -7,14 +7,6 @@ import { PRODUCTS } from '../constants';
 import { useTheme } from '../components/ThemeContext';
 import SizeChart from '../components/SizeChart';
 
-// Color mapping for swatches
-const COLOR_MAP: Record<string, string> = {
-  'white': '#FFFFFF',
-  'black': '#1a1a1a',
-  'grey': '#6B7280',
-  'green': '#22C55E',
-  'orange': '#F97316',
-};
 
 // Neutral background options per theme
 const NEUTRAL_BACKGROUNDS = {
@@ -47,13 +39,15 @@ const ProductDetails: React.FC = () => {
     if (product?.variants && product.variants.length > 0) {
       let targetIndex = 0;
       if (theme === 'light') {
-        const blackIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('black'));
-        const greyIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('grey'));
-        if (blackIndex !== -1) targetIndex = blackIndex;
-        else if (greyIndex !== -1) targetIndex = greyIndex;
+        const darkIndex = product.variants.findIndex(v =>
+          ['black', 'grey', 'shadow', 'steel'].some(c => v.color.toLowerCase().includes(c))
+        );
+        if (darkIndex !== -1) targetIndex = darkIndex;
       } else {
-        const whiteIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('white'));
-        if (whiteIndex !== -1) targetIndex = whiteIndex;
+        const lightIndex = product.variants.findIndex(v =>
+          ['white', 'bone', 'concrete'].some(c => v.color.toLowerCase().includes(c))
+        );
+        if (lightIndex !== -1) targetIndex = lightIndex;
       }
       setCurrentVariantIndex((prev) => (prev !== targetIndex ? targetIndex : prev));
     }
@@ -97,7 +91,14 @@ const ProductDetails: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9F9F9] dark:bg-[#111111] pt-32 pb-24 px-6 lg:px-12">
+    <div
+      className="min-h-screen bg-[#F9F9F9] dark:bg-[#111111] pt-32 pb-24 px-6 lg:px-12 transition-colors duration-500"
+      style={{
+        backgroundImage: theme === 'dark'
+          ? `radial-gradient(circle at 20% 30%, ${product.accentColor}15 0%, transparent 50%)`
+          : `radial-gradient(circle at 20% 30%, ${product.accentColor}08 0%, transparent 50%)`
+      }}
+    >
       <button
         onClick={() => navigate(-1)}
         className="group flex items-center gap-2 mb-12 text-xs font-mono font-bold tracking-widest uppercase text-black dark:text-white hover:text-gray-500 dark:hover:text-gray-400 transition-colors"
@@ -200,7 +201,10 @@ const ProductDetails: React.FC = () => {
         {/* Product Info */}
         <div className="flex flex-col justify-center">
           <div className="mb-2">
-            <span className="inline-block px-2 py-1 border border-black dark:border-white text-black dark:text-white text-[10px] font-mono font-bold uppercase tracking-widest mb-4">
+            <span
+              className="inline-block px-2 py-1 border text-[10px] font-mono font-bold uppercase tracking-widest mb-4 transition-colors"
+              style={{ borderColor: product.accentColor, color: product.accentColor }}
+            >
               {product.drop}
             </span>
             <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none mb-4 text-black dark:text-white">
@@ -216,8 +220,6 @@ const ProductDetails: React.FC = () => {
                 <h3 className="text-xs font-bold uppercase tracking-widest mb-3 text-black dark:text-white">Color</h3>
                 <div className="flex gap-3">
                   {product.variants.map((variant, index) => {
-                    const colorKey = variant.color.toLowerCase();
-                    const bgColor = COLOR_MAP[colorKey] || '#888888';
                     const isSelected = currentVariantIndex === index;
 
                     return (
@@ -225,10 +227,15 @@ const ProductDetails: React.FC = () => {
                         key={variant.color}
                         onClick={() => setCurrentVariantIndex(index)}
                         className={`w-8 h-8 rounded-full border-2 transition-all relative ${isSelected
-                          ? 'border-black dark:border-white scale-110 ring-2 ring-offset-2 ring-black dark:ring-white dark:ring-offset-[#111111]'
+                          ? 'scale-110 ring-2 ring-offset-2 dark:ring-offset-[#111111]'
                           : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:scale-105'
                           }`}
-                        style={{ backgroundColor: bgColor }}
+                        style={{
+                          backgroundColor: variant.hex,
+                          boxShadow: isSelected ? `0 0 15px ${variant.hex}50` : 'none',
+                          borderColor: isSelected ? product.accentColor : 'transparent',
+                          '--tw-ring-color': isSelected ? product.accentColor : 'transparent'
+                        } as React.CSSProperties}
                         title={variant.color}
                         aria-label={`Select ${variant.color}`}
                         aria-pressed={isSelected}

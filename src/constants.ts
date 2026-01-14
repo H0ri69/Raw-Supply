@@ -74,9 +74,10 @@ export const PRODUCTS: Product[] = [
     category: 'accessories',
     drop: 'DROP 001',
     variants: [
-      { color: 'Black', front: CapBlackFront, back: CapBlackBack },
-      { color: 'Grey', front: CapGreyFront, back: CapGreyBack },
-    ]
+      { color: 'Black', hex: '#111111', front: CapBlackFront, back: CapBlackBack },
+      { color: 'Steel', hex: '#63666A', front: CapGreyFront, back: CapGreyBack },
+    ],
+    accentColor: '#111111'
   },
   {
     id: 2,
@@ -87,11 +88,12 @@ export const PRODUCTS: Product[] = [
     category: 'men',
     drop: 'DROP 001',
     variants: [
-      { color: 'White', front: HorizontalWhiteFront, back: HorizontalWhiteBack },
-      { color: 'Grey', front: HorizontalGreyFront, back: HorizontalGreyBack },
-      { color: 'Green', front: HorizontalGreenFront, back: HorizontalGreenBack },
-      { color: 'Orange', front: HorizontalOrangeFront, back: HorizontalOrangeBack },
-    ]
+      { color: 'Ecru', hex: '#f0ecdc', front: HorizontalWhiteFront, back: HorizontalWhiteBack },
+      { color: 'Steel', hex: '#4e4e4eff', front: HorizontalGreyFront, back: HorizontalGreyBack },
+      { color: 'Coyote', hex: '#cea75d', front: HorizontalOrangeFront, back: HorizontalOrangeBack },
+      { color: 'Drab', hex: '#8b8660', front: HorizontalGreenFront, back: HorizontalGreenBack },
+    ],
+    accentColor: '#cea75d'
   },
   {
     id: 3,
@@ -102,11 +104,12 @@ export const PRODUCTS: Product[] = [
     category: 'men',
     drop: 'DROP 001',
     variants: [
-      { color: 'White', front: VerticalWhiteFront, back: VerticalWhiteBack },
-      { color: 'Grey', front: VerticalGreyFront, back: VerticalGreyBack },
-      { color: 'Green', front: VerticalGreenFront, back: VerticalGreenBack },
-      { color: 'Orange', front: VerticalOrangeFront, back: VerticalOrangeBack },
-    ]
+      { color: 'Frost', hex: '#e9e9ec', front: VerticalWhiteFront, back: VerticalWhiteBack },
+      { color: 'Void', hex: '#403f46', front: VerticalGreyFront, back: VerticalGreyBack },
+      { color: 'Deep Forest', hex: '#2c3a34', front: VerticalGreenFront, back: VerticalGreenBack },
+      { color: 'Umber', hex: '#ad8557', front: VerticalOrangeFront, back: VerticalOrangeBack },
+    ],
+    accentColor: '#2c3a34'
   }
 ];
 

@@ -22,16 +22,19 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       // "Default tshirt as the opposite of the theme"
       // Light Theme -> Want Black or Grey (Darker)
       // Dark Theme -> Want White (Lighter)
-      if (theme === 'light') {
-        const blackIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('black'));
-        const greyIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('grey'));
-        if (blackIndex !== -1) targetIndex = blackIndex;
-        else if (greyIndex !== -1) targetIndex = greyIndex;
-        // else keep 0
+      if (product.name === 'TEE 001') {
+        const frostIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('frost'));
+        if (frostIndex !== -1) targetIndex = frostIndex;
+      } else if (theme === 'light') {
+        const darkIndex = product.variants.findIndex(v =>
+          ['black', 'grey', 'shadow', 'steel', 'void', 'drab'].some(c => v.color.toLowerCase().includes(c))
+        );
+        if (darkIndex !== -1) targetIndex = darkIndex;
       } else {
-        const whiteIndex = product.variants.findIndex(v => v.color.toLowerCase().includes('white'));
-        if (whiteIndex !== -1) targetIndex = whiteIndex;
-        // else keep 0
+        const lightIndex = product.variants.findIndex(v =>
+          ['white', 'bone', 'concrete', 'ecru', 'frost'].some(c => v.color.toLowerCase().includes(c))
+        );
+        if (lightIndex !== -1) targetIndex = lightIndex;
       }
 
       setCurrentVariantIndex(targetIndex);
@@ -132,7 +135,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="flex flex-col gap-1 flex-grow">
         <div className="flex justify-between items-start gap-4">
           <Link to={`/product/${product.id}`}>
-            <h3 className="text-sm font-bold uppercase tracking-tight text-black dark:text-white leading-tight hover:underline">
+            <h3 className="text-sm font-bold uppercase tracking-tight text-black dark:text-white leading-tight flex items-center gap-2 group-hover:underline decoration-2" style={{ textDecorationColor: product.accentColor }}>
+              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: product.accentColor }} />
               {product.name}
             </h3>
           </Link>
