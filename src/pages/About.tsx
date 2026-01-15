@@ -56,11 +56,11 @@ const About: React.FC = () => {
             <img
               src={ASSETS.texture}
               alt="Raw Texture"
-              className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-[2s] grayscale contrast-150"
+              className="w-full h-full object-cover  group-hover:scale-105 transition-transform duration-[2s]  contrast-150"
             />
-            <div className="absolute inset-0 flex flex-col justify-between p-12 text-white mix-blend-difference">
+            <div className="absolute inset-0 flex flex-col justify-between p-12 text-black">
               <span className="font-mono text-xs tracking-widest">EST. 2024</span>
-              <h4 className="text-6xl font-black uppercase tracking-tighter leading-none opacity-50">
+              <h4 className="text-6xl font-black uppercase tracking-tighter leading-none">
                 Texture<br />Is<br />Conflict
               </h4>
             </div>

@@ -143,10 +143,15 @@ const Home: React.FC = () => {
                 transition={{ duration: 1.5, ease: "easeOut" }}
                 src={ASSETS.texture}
                 alt="Fabric Texture"
-                className="w-full h-full object-cover grayscale hover:scale-105 transition-transform duration-1000 contrast-125 dark:invert"
+                className="w-full h-full object-cover  hover:scale-105 transition-transform duration-1000 contrast-125 dark:invert"
               />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-white/80 font-black text-6xl uppercase mix-blend-difference tracking-tighter opacity-50 text-center">
+                <span className={`text-black
+                  font-black
+                  text-6xl
+                  uppercase
+                  tracking-tighter
+                  text-center`}>
                   Raw As War
                 </span>
               </div>

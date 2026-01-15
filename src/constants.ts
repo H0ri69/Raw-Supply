@@ -36,7 +36,7 @@ const VERTICAL_TEES_URL = VerticalWhiteFront;
 
 // RELIABLE UNSPLASH ASSETS
 const HERO_URL = 'https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=2500&auto=format&fit=crop'; // Darker, more raw fashion vibe
-const TEXTURE_URL = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2500&auto=format&fit=crop'; // Abstract oil/texture
+const TEXTURE_URL = 'https://i.ibb.co/DPDWyNP2/IMG-7840.jpg'; // Abstract oil/texture
 
 // HOMEPAGE EDITORIAL ASSETS (High Quality for Banners)
 const EDITORIAL_MEN_URL = 'https://images.unsplash.com/photo-1517423568366-6975522327c6?q=80&w=1200&auto=format&fit=crop'; // Urban/Industrial men
